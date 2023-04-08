@@ -12877,8 +12877,6 @@ RangeItem.prototype._repaintDomAdditionals = function () {
   this._repaintOnItemUpdateTimeTooltip(this.dom.box);
   this._repaintDeleteButton(this.dom.box);
   this._repaintDragCenter();
-  this._repaintDragLeft();
-  this._repaintDragRight();
 };
 
 /**
