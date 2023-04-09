@@ -5832,44 +5832,6 @@ Item.prototype._repaintDragCenter = function () {
 };
 
 /**
- * Repaint a delete button on the top right of the item when the item is selected
- * @param {HTMLElement} anchor
- * @protected
- */
-Item.prototype._repaintDeleteButton = function (anchor) {
-  var editable = (this.options.editable.overrideItems || this.editable == null) && this.options.editable.remove || !this.options.editable.overrideItems && this.editable != null && this.editable.remove;
-
-  if (this.selected && editable && !this.dom.deleteButton) {
-    // create and show button
-    var me = this;
-
-    var deleteButton = document.createElement('div');
-
-    if (this.options.rtl) {
-      deleteButton.className = 'vis-delete-rtl';
-    } else {
-      deleteButton.className = 'vis-delete';
-    }
-    deleteButton.title = 'Delete this item';
-
-    // TODO: be able to destroy the delete button
-    new Hammer(deleteButton).on('tap', function (event) {
-      event.stopPropagation();
-      me.parent.removeFromDataSet(me);
-    });
-
-    anchor.appendChild(deleteButton);
-    this.dom.deleteButton = deleteButton;
-  } else if (!this.selected && this.dom.deleteButton) {
-    // remove button
-    if (this.dom.deleteButton.parentNode) {
-      this.dom.deleteButton.parentNode.removeChild(this.dom.deleteButton);
-    }
-    this.dom.deleteButton = null;
-  }
-};
-
-/**
  * Repaint a onChange tooltip on the top right of the item when the item is selected
  * @param {HTMLElement} anchor
  * @protected
@@ -12875,7 +12837,6 @@ RangeItem.prototype._updateDomComponentsSizes = function (sizes) {
 
 RangeItem.prototype._repaintDomAdditionals = function () {
   this._repaintOnItemUpdateTimeTooltip(this.dom.box);
-  this._repaintDeleteButton(this.dom.box);
   this._repaintDragCenter();
 };
 
@@ -20207,7 +20168,6 @@ BoxItem.prototype._updateDomComponentsSizes = function (sizes) {
 BoxItem.prototype._repaintDomAdditionals = function () {
   this._repaintOnItemUpdateTimeTooltip(this.dom.box);
   this._repaintDragCenter();
-  this._repaintDeleteButton(this.dom.box);
 };
 
 /**
@@ -20545,7 +20505,6 @@ PointItem.prototype._updateDomComponentsSizes = function (sizes) {
 PointItem.prototype._repaintDomAdditionals = function () {
   this._repaintOnItemUpdateTimeTooltip(this.dom.point);
   this._repaintDragCenter();
-  this._repaintDeleteButton(this.dom.point);
 };
 
 /**
