@@ -1115,6 +1115,11 @@ div.vis-network div.vis-navigation div.vis-button.vis-zoomExtends {
   border-bottom: 1px solid #bfbfbf;
 }
 
+/* add even number different color */
+.vis-foreground .vis-group:nth-child(even) {
+  background-color: rgb(245, 245, 245, 0.6);
+}
+
 .vis-foreground .vis-group:last-child {
   border-bottom: none;
 }
