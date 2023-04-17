@@ -17457,7 +17457,7 @@ function ItemSet(body, options) {
 
     margin: {
       item: {
-        horizontal: 10,
+        horizontal: -15,
         vertical: 10
       },
       axis: 20
