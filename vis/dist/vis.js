@@ -19983,7 +19983,9 @@ exports.collision = function (a, b, margin, rtl) {
  * @return {boolean}        true if a and b collide, else false
  */
 exports.collisionByTimes = function (a, b) {
-  return a.start <= b.start && a.end >= b.start && a.top < b.top + b.height && a.top + a.height > b.top || b.start <= a.start && b.end >= a.start && b.top < a.top + a.height && b.top + b.height > a.top;
+    const timeOverlap = a.start < b.end && a.end > b.start;
+    const heightOverlap = a.top < (b.top + b.height) && (a.top + a.height) > b.top;
+    return timeOverlap && heightOverlap;
 };
 
 /***/ }),
