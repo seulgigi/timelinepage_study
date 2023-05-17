@@ -57,7 +57,10 @@
 
 <p>For this to work, you will have to define your own <code>'dragstart'</code> eventListener on each item in your list of items (make sure that any new item added to the list is attached to this eventListener 'dragstart' handler). This 'dragstart' handler must set <code>dataTransfer</code> - notice you can set  the item's information as you want this way.</p>
 
-<div id="mytimeline" ></div>
+<div id="mytimeline" >
+  
+</div>
+<div class="vis-group" id="vis-group">hello</div>
 
 <div class='items-panel'>
   <div class='side'>
@@ -98,6 +101,9 @@
       content: 'Truck&nbsp;' + i
     })
   }
+
+  // random color
+
   
   // create items
   var numberOfItems = 10;
@@ -149,7 +155,8 @@
     var item = {
       id: new Date(),
       type: itemType,
-      content: event.target.innerHTML.split('-')[0].trim()
+      content: event.target.innerHTML.split('-')[0].trim(),
+      backgroundColor: 'blue'
     };
 
     var isFixedTimes = (event.target.innerHTML.split('-')[2] && event.target.innerHTML.split('-')[2].trim() == 'fixed times')
@@ -179,6 +186,14 @@
     var item = items[i];
     item.addEventListener('dragstart', handleDragStart.bind(this), false);
   }
+
+  document.querySelectorAll('.vis-item').forEach(item => {
+    let color_r = Math.floor(Math.random() * 127 + 128).toString(16);
+    let color_g = Math.floor(Math.random() * 127 + 128).toString(16);
+    let color_b = Math.floor(Math.random() * 127 + 128).toString(16);
+    const randomColor = `#${color_r+color_g+color_b}`;
+    item.style.backgroundColor = randomColor;
+  });
 
   for (var i = objectItems.length - 1; i >= 0; i--) {
     var objectItem = objectItems[i];
