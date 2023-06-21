@@ -894,12 +894,22 @@ div.vis-network div.vis-navigation div.vis-button.vis-zoomExtends {
   position: absolute;
   color: #1A1A1A;
   border-color: #97B0F8;
-  border-width: 1px;
+  border-width: 0px;
   background-color: #D5DDF6;
   display: inline-block;
   z-index: 1;
   /*overflow: hidden;*/
 }
+
+/* .vis-group:nth-child(1) .vis-item:nth-child(1) { background-color: #FECACA; }
+.vis-group:nth-child(1) .vis-item:nth-child(2) { background-color: #FED7AA; }
+.vis-group:nth-child(1) .vis-item:nth-child(3) { background-color: #FEF08A; }
+.vis-group:nth-child(2) .vis-item:nth-child(1) { background-color: #D9F99D; }
+.vis-group:nth-child(2) .vis-item:nth-child(2) { background-color: #A5F3FC; }
+.vis-group:nth-child(2) .vis-item:nth-child(3) { background-color: #BFDBFE; }
+.vis-group:nth-child(3) .vis-item:nth-child(1) { background-color: #C7D2FE; }
+.vis-group:nth-child(3) .vis-item:nth-child(2) { background-color: #DDD6FE; }
+.vis-group:nth-child(3) .vis-item:nth-child(3) { background-color: #E9D5FF; } */
 
 .vis-item.vis-selected {
   border-color: #FFC200;
