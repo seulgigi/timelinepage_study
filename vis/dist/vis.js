@@ -20670,7 +20670,7 @@ BackgroundItem.prototype = new Item(null, null, null);
 
 BackgroundItem.prototype.baseClassName = 'vis-item vis-background';
 
-BackgroundItem.prototype.stack = false;
+BackgroundItem.prototype.stack = true;
 
 /**
  * Check whether this item is visible inside given range
