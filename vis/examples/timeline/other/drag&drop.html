@@ -60,7 +60,8 @@
 <div id="mytimeline" >
   
 </div>
-<div class="vis-group" id="vis-group">hello</div>
+<div class="vis-group" id="vis-group"></div>
+<div class="completion_time"></div>
 
 <div class='items-panel'>
   <div class='side'>
@@ -106,30 +107,90 @@
 
   
   // create items
-  var numberOfItems = 10;
+  var numberOfItems = 8;
   var items = new vis.DataSet();
 
   var itemsPerGroup = Math.round(numberOfItems/numberOfGroups);
+  var date = new Date();
+
+  var date_list = [
+    [
+      {
+        id: 0,
+        ptime: 6
+      },
+      {
+        id: 1,
+        ptime: 4
+      },
+      {
+        id: 2,
+        ptime: 4
+      }
+    ],
+    [
+      {
+        id: 3,
+        ptime: 8
+      },
+      {
+        id: 4,
+        ptime: 4
+      },
+      {
+        id: 5,
+        ptime: 6
+      }
+    ],
+    [
+      {
+        id: 6,
+        ptime: 6
+      },
+      {
+        id: 7,
+        ptime: 6
+      }
+    ]
+  ];
+
+  const ct = document.querySelector('.completion_time');
+  var completion_time = 0;
 
   for (var truck = 0; truck < numberOfGroups; truck++) {
     var date = new Date();
-    for (var order = 0; order < itemsPerGroup; order++) {
-      date.setHours(date.getHours() +  4 * (Math.random() < 0.2));
+    var truck_completion_time = 0;
+
+    for (var order = 0; order < date_list[truck].length; order++) {
+      date.setHours(date.getHours());
       var start = new Date(date);
 
-      date.setHours(date.getHours() + 2 + Math.floor(Math.random()*4));
+      date.setHours(date.getHours() + date_list[truck][order].ptime);
       var end = new Date(date);
 
       items.add({
-        id: order + itemsPerGroup * truck,
+        id: order + 3 * truck,
         group: truck,
         start: start,
         end: end,
-        content: 'Order ' + order
-      });
+        content: 'Order' + order
+      })
+
+      truck_completion_time += date_list[truck][order].ptime;
     }
+
+    const truck_ct = document.createElement('p');
+    truck_ct.textContent = 'Truck'+truck+' Completion Time : ' +truck_completion_time;
+
+    ct.appendChild(truck_ct);
+
+    completion_time += truck_completion_time;
   }
-  
+
+  const total_ct = document.createElement('p');
+  total_ct.textContent = 'Total Completion Time : ' + completion_time;
+  ct.appendChild(total_ct)
+
   // specify options
   var options = {
     stack: true,
@@ -187,11 +248,14 @@
     item.addEventListener('dragstart', handleDragStart.bind(this), false);
   }
 
+  let idx = 0
   document.querySelectorAll('.vis-item').forEach(item => {
-    let color_r = Math.floor(Math.random() * 127 + 128).toString(16);
-    let color_g = Math.floor(Math.random() * 127 + 128).toString(16);
-    let color_b = Math.floor(Math.random() * 127 + 128).toString(16);
-    const randomColor = `#${color_r+color_g+color_b}`;
+    let color_list = ['429CC0', '745CA4', 'D2CE6B', '01409D', 'CF9621', '127179', '312474', '8B1716'];
+    // lego color assign
+    // let color_r = Math.floor(Math.random() * 127 + 128).toString(16);
+    // let color_g = Math.floor(Math.random() * 127 + 128).toString(16);
+    // let color_b = Math.floor(Math.random() * 127 + 128).toString(16);
+    const randomColor = `#${color_list[idx++]}`; 
     item.style.backgroundColor = randomColor;
   });
 
