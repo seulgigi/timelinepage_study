@@ -117,49 +117,67 @@
     [
       {
         id: 0,
-        ptime: 6
+        ptime: 6,
+        setup: 0,
+        due: 10
       },
       {
         id: 1,
-        ptime: 4
+        ptime: 4,
+        setup: 0,
+        due: 10
       },
       {
         id: 2,
-        ptime: 4
+        ptime: 4,
+        setup: 0,
+        due: 10
       }
     ],
     [
       {
         id: 3,
-        ptime: 8
+        ptime: 8,
+        setup: 0,
+        due: 10
       },
       {
         id: 4,
-        ptime: 4
+        ptime: 4,
+        setup: 0,
+        due: 10
       },
       {
         id: 5,
-        ptime: 6
+        ptime: 6,
+        setup: 0,
+        due: 10
       }
     ],
     [
       {
         id: 6,
-        ptime: 6
+        ptime: 6,
+        setup: 0,
+        due: 10
       },
       {
         id: 7,
-        ptime: 6
+        ptime: 6,
+        setup: 0,
+        due: 10
       }
     ]
   ];
 
   const ct = document.querySelector('.completion_time');
-  var completion_time = 0;
+  var total_tardiness = 0;
+  var total_earliness = 0;
 
   for (var truck = 0; truck < numberOfGroups; truck++) {
     var date = new Date();
-    var truck_completion_time = 0;
+    var tardiness = 0;
+    var earliness = 0;
 
     for (var order = 0; order < date_list[truck].length; order++) {
       date.setHours(date.getHours());
@@ -176,19 +194,25 @@
         content: 'Order' + order
       })
 
-      truck_completion_time += date_list[truck][order].ptime;
+      var score = date_list[truck][order].due - end.getHours();
+      if (score>0) tardiness += score;
+      else earliness -= score;
     }
 
+    var truck_score = tardiness + earliness;
+
     const truck_ct = document.createElement('p');
-    truck_ct.textContent = 'Truck'+truck+' Completion Time : ' +truck_completion_time;
+    truck_ct.textContent = 'Truck'+truck+' Score : ' +truck_score +' - tardiness : '+tardiness+', earliness : '+earliness;
 
     ct.appendChild(truck_ct);
 
-    completion_time += truck_completion_time;
+    total_tardiness += tardiness;
+    total_earliness += earliness;
   }
 
+  var total_score = total_tardiness + total_earliness;
   const total_ct = document.createElement('p');
-  total_ct.textContent = 'Total Completion Time : ' + completion_time;
+  total_ct.textContent = 'Total Score : ' + total_score+' - total tardiness : '+total_tardiness+', total earliness : '+total_earliness;
   ct.appendChild(total_ct)
 
   // specify options
