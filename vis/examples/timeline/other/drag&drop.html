@@ -194,9 +194,10 @@
         content: 'Order' + order
       })
 
-      var score = date_list[truck][order].due - end.getHours();
-      if (score>0) tardiness += score;
-      else earliness -= score;
+      var available_time = date_list[truck][order].ptime;
+      var score = date_list[truck][order].due - available_time;
+      if (score>0) earliness += score;
+      else tardiness -= score;
     }
 
     var truck_score = tardiness + earliness;
