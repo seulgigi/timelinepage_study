@@ -139,7 +139,7 @@
         id: 3,
         ptime: 8,
         setup: 0,
-        due: 10
+        due: 15
       },
       {
         id: 4,
@@ -159,7 +159,7 @@
         id: 6,
         ptime: 6,
         setup: 0,
-        due: 10
+        due: 20
       },
       {
         id: 7,
@@ -173,13 +173,14 @@
   const ct = document.querySelector('.completion_time');
   var total_tardiness = 0;
   var total_earliness = 0;
+  var due_list = [];
 
   for (var truck = 0; truck < numberOfGroups; truck++) {
     var date = new Date();
     var tardiness = 0;
     var earliness = 0;
 
-    for (var order = 0; order < date_list[truck].length; order++) {
+    for (var order = 0; order < date_list[truck].length; order++) { 
       date.setHours(date.getHours());
       var start = new Date(date);
 
@@ -194,6 +195,12 @@
         content: 'Order' + order
       })
 
+      if (order == 0){
+        var due = new Date();
+        due.setDate(start.getDate() + date_list[truck][0].due)
+        due_list.push(new Date(due).toISOString().replace('T', ' ').slice(0, -5))
+      }
+
       var available_time = date_list[truck][order].ptime;
       var score = date_list[truck][order].due - available_time;
       if (score>0) earliness += score;
@@ -203,7 +210,8 @@
     var truck_score = tardiness + earliness;
 
     const truck_ct = document.createElement('p');
-    truck_ct.textContent = 'Truck'+truck+' Score : ' +truck_score +' - tardiness : '+tardiness+', earliness : '+earliness;
+    truck_ct.textContent = 'Truck'+truck+' Score : ' +truck_score +' - tardiness : '+tardiness+', earliness : '+earliness+
+    ', due date (+'+ date_list[truck][0].due + '일) : ' + due_list[truck];
 
     ct.appendChild(truck_ct);
 
