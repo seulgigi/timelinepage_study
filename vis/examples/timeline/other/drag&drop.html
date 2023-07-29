@@ -178,7 +178,7 @@
   i = 0
 
   for (var truck = 0; truck < numberOfGroups; truck++) {
-    var date = new Date();
+    var date = new Date('2023-01-01 00:00:00');
     var tardiness = 0;
     var earliness = 0;
 
@@ -198,7 +198,7 @@
       })
 
       if (order == 0){
-        var due = new Date();
+        var due = new Date('2023-01-01 00:00:00');
         due.setDate(start.getDate() + date_list[truck][0].due)
         due_list.push(new Date(due).toISOString().replace('T', ' ').slice(0, -5))
       }
@@ -230,8 +230,8 @@
   // specify options
   var options = {
     stack: true,
-    start: new Date(),
-    end: new Date(1000*60*60*24 + (new Date()).valueOf()),
+    start: new Date('2023-01-01 00:00:00'),
+    end: new Date(1000*60*60*24 + (new Date('2023-01-01 00:00:00')).valueOf()),
     editable: true,
     orientation: 'top',
     onDropObjectOnItem: function(objectData, item, callback) {
@@ -250,7 +250,7 @@
     event.dataTransfer.effectAllowed = 'move';
     var itemType = event.target.innerHTML.split('-')[1].trim();
     var item = {
-      id: new Date(),
+      id: new Date('2023-01-01 00:00:00'),
       type: itemType,
       content: event.target.innerHTML.split('-')[0].trim(),
       backgroundColor: 'blue'
@@ -258,7 +258,7 @@
 
     var isFixedTimes = (event.target.innerHTML.split('-')[2] && event.target.innerHTML.split('-')[2].trim() == 'fixed times')
     if (isFixedTimes) {
-      item.start = new Date();
+      item.start = new Date('2023-01-01 00:00:00');
       item.end = new Date(1000*60*10 + (new Date()).valueOf());
     }
     event.dataTransfer.setData("text", JSON.stringify(item));
