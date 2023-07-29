@@ -975,6 +975,8 @@ div.vis-network div.vis-navigation div.vis-button.vis-zoomExtends {
 .vis-item.vis-range .vis-item-content {
   position: relative;
   display: inline-block;
+  text-align: center;
+  color: white;
 }
 
 .vis-item.vis-background .vis-item-content {
