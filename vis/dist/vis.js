@@ -11602,8 +11602,9 @@ CurrentTime.prototype.redraw = function () {
 
       this.start();
     }
-
-    var now = this.options.moment(new Date().valueOf() + this.offset);
+    // 2023년 1월 1일로 시간 고정
+    var fixedTime = new Date(2022, 12, 1, 0).valueOf();
+    var now = this.options.moment(fixedTime);
     var x = this.body.util.toScreen(now);
 
     var locale = this.options.locales[this.options.locale];
