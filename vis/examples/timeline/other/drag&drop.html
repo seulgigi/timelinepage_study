@@ -178,7 +178,7 @@
   i = 0
 
   for (var truck = 0; truck < numberOfGroups; truck++) {
-    var date = new Date('2023-01-01 00:00:00');
+    var date = new Date(2022, 12, 1);
     var tardiness = 0;
     var earliness = 0;
 
@@ -198,7 +198,7 @@
       })
 
       if (order == 0){
-        var due = new Date('2023-01-01 00:00:00');
+        var due = new Date(2022, 12, 1);
         due.setDate(start.getDate() + date_list[truck][0].due)
         due_list.push(new Date(due).toISOString().replace('T', ' ').slice(0, -5))
       }
@@ -223,6 +223,7 @@
   }
 
   var total_score = total_tardiness + total_earliness;
+  var min = new Date(2022, 12, 1);
   const total_ct = document.createElement('p');
   total_ct.textContent = 'Total Score : ' + total_score+' - total tardiness : '+total_tardiness+', total earliness : '+total_earliness;
   ct.appendChild(total_ct)
@@ -230,10 +231,14 @@
   // specify options
   var options = {
     stack: true,
-    start: new Date('2023-01-01 00:00:00'),
-    end: new Date(1000*60*60*24 + (new Date('2023-01-01 00:00:00')).valueOf()),
+    start: new Date(2022, 12, 1),
+    end: new Date(1000*60*60*24 + (new Date(2022, 12, 1)).valueOf()),
     editable: true,
     orientation: 'top',
+    onMoving: function (item, callback) {
+      if (item.start < min) return;
+      callback(item);
+    },
     onDropObjectOnItem: function(objectData, item, callback) {
       if (!item) { return; }
       alert('dropped object with content: "' + objectData.content + '" to item: "' + item.content + '"');
@@ -250,7 +255,7 @@
     event.dataTransfer.effectAllowed = 'move';
     var itemType = event.target.innerHTML.split('-')[1].trim();
     var item = {
-      id: new Date('2023-01-01 00:00:00'),
+      id: new Date(2022, 12, 1),
       type: itemType,
       content: event.target.innerHTML.split('-')[0].trim(),
       backgroundColor: 'blue'
@@ -258,7 +263,7 @@
 
     var isFixedTimes = (event.target.innerHTML.split('-')[2] && event.target.innerHTML.split('-')[2].trim() == 'fixed times')
     if (isFixedTimes) {
-      item.start = new Date('2023-01-01 00:00:00');
+      item.start = new Date(2022, 12, 1);
       item.end = new Date(1000*60*10 + (new Date()).valueOf());
     }
     event.dataTransfer.setData("text", JSON.stringify(item));
