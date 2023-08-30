@@ -48,6 +48,22 @@
       display: flex;
       justify-content: space-around;
     }
+
+    table{
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    th{
+      padding: 5px;
+      width: 150px;
+      border: 1px solid lightslategray;
+    }
+    thead{
+      background-color: #D5DDF6;
+    }
+    button{
+      margin: 5px;
+    }
   </style>
 </head>
 
@@ -63,7 +79,20 @@
 <div class="vis-group" id="vis-group"></div>
 <div class="completion_time"></div>
 
-<div class='items-panel'>
+<table class="table">
+  <thead class="table_header">
+    <th>Machine No.<button id="machine_num" onclick="sortTable(0)">▼</button></th>
+    <th>Job No.<button id="job_num" onclick="sortTable(1)">▼</button></th>
+    <th>Process<br/>Time(d)<button id="process_time" onclick="sortTable(2)">▼</button></th>
+    <th>Start(d)<button id="start" onclick="sortTable(3)">▼</button></th>
+    <th>End(d)<button id="end" onclick="sortTable(4)">▼</button></th>
+    <th>Due(d)<button id="due" onclick="sortTable(5)">▼</button></th>
+    <th>Setup<br/>Time(d)<button id="setup_time" onclick="sortTable(6)">▼</button></th>
+  </thead>
+  <tbody class="table_job"></tbody>
+</table>
+
+<!-- <div class='items-panel'>
   <div class='side'>
     <h3>Items:</h3>
     <ul class="items">
@@ -81,14 +110,14 @@
         (start: now, end: now + 10 min)
       </li>
     </ul>
-  </div>
+  </div> -->
 
-  <div class='side'>
+  <!-- <div class='side'>
     <h3>Object with "target:'item'":</h3>
     <li draggable="true" class="object-item">
       object with target:'item'
     </li>
-  </div>
+  </div> -->
 </div>
 
 <script>
@@ -170,6 +199,9 @@
     ]
   ];
 
+  // 작업 테이블 위치
+  var table_job = document.querySelector('.table .table_job');
+
   const ct = document.querySelector('.completion_time');
   var total_tardiness = 0;
   var total_earliness = 0;
@@ -183,11 +215,16 @@
     var earliness = 0;
 
     for (var order = 0; order < date_list[truck].length; order++) { 
-      date.setHours(date.getHours());
       var start = new Date(date);
 
-      date.setHours(date.getHours() + date_list[truck][order].ptime);
-      var end = new Date(date);
+      // 작업 시간을 밀리초로 변환
+      var ptimeInMilliseconds = date_list[truck][order].ptime * 60 * 60 * 1000 * 24;
+      
+      // 밀리초를 더하여 끝 시간 계산
+      var end = new Date(start.getTime() + ptimeInMilliseconds);
+
+      // 다음 작업의 시작 시간을 계산
+      date = new Date(end); // 끝 시간을 복제하여 시작 시간으로 사용
 
       items.add({
         id: order + 3 * truck,
@@ -208,6 +245,35 @@
       if (score>0) earliness += score;
       else tardiness -= score;
       i += 1;
+
+      // 작업 테이블에 추가할 요소 생성
+      const job_tr = document.createElement('tr');
+      const job_machine = document.createElement('th');
+      const job_id = document.createElement('th');
+      const job_ptime = document.createElement('th');
+      const job_start = document.createElement('th');
+      const job_end = document.createElement('th');
+      const job_due = document.createElement('th');
+      const job_setup = document.createElement('th');
+
+      var start_day = start.getDate() + Math.floor((start - new Date(2022, 12, 1)) / (1000 * 60 * 60 * 24)) -1;
+      job_machine.textContent = truck;
+      job_id.textContent = order + 3 * truck;
+      job_ptime.textContent = date_list[truck][order].ptime;
+      job_start.textContent = start_day;
+      job_end.textContent = start_day + date_list[truck][order].ptime;
+      job_due.textContent = date_list[truck][order].due;
+      job_setup.textContent = date_list[truck][order].setup;
+
+      job_tr.appendChild(job_machine);
+      job_tr.appendChild(job_id);
+      job_tr.appendChild(job_ptime);
+      job_tr.appendChild(job_start);
+      job_tr.appendChild(job_end);
+      job_tr.appendChild(job_due);
+      job_tr.appendChild(job_setup);
+
+      table_job.appendChild(job_tr);
     }
 
     var truck_score = tardiness + earliness;
@@ -304,6 +370,23 @@
     var objectItem = objectItems[i];
     objectItem.addEventListener('dragstart', handleObjectItemDragStart.bind(this), false);
   }
+
+  // 작업 테이블을 주어진 열 기준으로 정렬하는 함수
+  function sortTable(column) {
+    var rows = Array.from(table_job.querySelectorAll('tr'));
+    
+    rows.sort(function(a, b) {
+      var cellA = a.querySelectorAll('th')[column].textContent;
+      var cellB = b.querySelectorAll('th')[column].textContent;
+      return cellA.localeCompare(cellB, undefined, {numeric: true, sensitivity: 'base'});
+    });
+
+    // 정렬된 행을 다시 테이블에 추가
+    for (var i = 0; i < rows.length; i++) {
+      table_job.appendChild(rows[i]);
+    }
+  }
+
 
 </script>
 
