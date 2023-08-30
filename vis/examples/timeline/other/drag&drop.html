@@ -55,11 +55,14 @@
     }
     th{
       padding: 5px;
-      width: 100px;
+      width: 150px;
       border: 1px solid lightslategray;
     }
     thead{
       background-color: #D5DDF6;
+    }
+    button{
+      margin: 5px;
     }
   </style>
 </head>
@@ -78,13 +81,13 @@
 
 <table class="table">
   <thead class="table_header">
-    <th>Job No.</th>
-    <th>Machine No.</th>
-    <th>Process<br/>Time(d)</th>
-    <th>Start(d)</th>
-    <th>End(d)</th>
-    <th>Due(d)</th>
-    <th>Setup<br/>Time(d)</th>
+    <th>Machine No.<button id="machine_num" onclick="sortTable(0)">▼</button></th>
+    <th>Job No.<button id="job_num" onclick="sortTable(1)">▼</button></th>
+    <th>Process<br/>Time(d)<button id="process_time" onclick="sortTable(2)">▼</button></th>
+    <th>Start(d)<button id="start" onclick="sortTable(3)">▼</button></th>
+    <th>End(d)<button id="end" onclick="sortTable(4)">▼</button></th>
+    <th>Due(d)<button id="due" onclick="sortTable(5)">▼</button></th>
+    <th>Setup<br/>Time(d)<button id="setup_time" onclick="sortTable(6)">▼</button></th>
   </thead>
   <tbody class="table_job"></tbody>
 </table>
@@ -197,7 +200,7 @@
   ];
 
   // 작업 테이블 위치
-  // var table_job = document.querySelector('.table .table_job');
+  var table_job = document.querySelector('.table .table_job');
 
   const ct = document.querySelector('.completion_time');
   var total_tardiness = 0;
@@ -270,7 +273,7 @@
       job_tr.appendChild(job_due);
       job_tr.appendChild(job_setup);
 
-      document.querySelector('.table .table_job').appendChild(job_tr);
+      table_job.appendChild(job_tr);
     }
 
     var truck_score = tardiness + earliness;
@@ -367,6 +370,23 @@
     var objectItem = objectItems[i];
     objectItem.addEventListener('dragstart', handleObjectItemDragStart.bind(this), false);
   }
+
+  // 작업 테이블을 주어진 열 기준으로 정렬하는 함수
+  function sortTable(column) {
+    var rows = Array.from(table_job.querySelectorAll('tr'));
+    
+    rows.sort(function(a, b) {
+      var cellA = a.querySelectorAll('th')[column].textContent;
+      var cellB = b.querySelectorAll('th')[column].textContent;
+      return cellA.localeCompare(cellB, undefined, {numeric: true, sensitivity: 'base'});
+    });
+
+    // 정렬된 행을 다시 테이블에 추가
+    for (var i = 0; i < rows.length; i++) {
+      table_job.appendChild(rows[i]);
+    }
+  }
+
 
 </script>
 
