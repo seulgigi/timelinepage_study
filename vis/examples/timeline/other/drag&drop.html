@@ -80,11 +80,11 @@
   <thead class="table_header">
     <th>Job No.</th>
     <th>Machine No.</th>
-    <th>Process<br/>Time(h)</th>
-    <th>Start(h)</th>
-    <th>End(h)</th>
-    <th>Due(h)</th>
-    <th>Setup<br/>Time(h)</th>
+    <th>Process<br/>Time(d)</th>
+    <th>Start(d)</th>
+    <th>End(d)</th>
+    <th>Due(d)</th>
+    <th>Setup<br/>Time(d)</th>
   </thead>
   <tbody class="table_job"></tbody>
 </table>
@@ -207,17 +207,21 @@
   i = 0
 
   for (var truck = 0; truck < numberOfGroups; truck++) {
-    var now_date = new Date();
     var date = new Date(2022, 12, 1);
     var tardiness = 0;
     var earliness = 0;
 
     for (var order = 0; order < date_list[truck].length; order++) { 
-      date.setHours(date.getHours());
       var start = new Date(date);
 
-      date.setHours(date.getHours() + date_list[truck][order].ptime);
-      var end = new Date(date);
+      // 작업 시간을 밀리초로 변환
+      var ptimeInMilliseconds = date_list[truck][order].ptime * 60 * 60 * 1000 * 24;
+      
+      // 밀리초를 더하여 끝 시간 계산
+      var end = new Date(start.getTime() + ptimeInMilliseconds);
+
+      // 다음 작업의 시작 시간을 계산
+      date = new Date(end); // 끝 시간을 복제하여 시작 시간으로 사용
 
       items.add({
         id: order + 3 * truck,
@@ -249,11 +253,12 @@
       const job_due = document.createElement('th');
       const job_setup = document.createElement('th');
 
+      var start_day = start.getDate() + Math.floor((start - new Date(2022, 12, 1)) / (1000 * 60 * 60 * 24)) -1;
       job_machine.textContent = truck;
       job_id.textContent = order + 3 * truck;
       job_ptime.textContent = date_list[truck][order].ptime;
-      job_start.textContent = start.getHours();
-      job_end.textContent = end.getHours();
+      job_start.textContent = start_day;
+      job_end.textContent = start_day + date_list[truck][order].ptime;
       job_due.textContent = date_list[truck][order].due;
       job_setup.textContent = date_list[truck][order].setup;
 
