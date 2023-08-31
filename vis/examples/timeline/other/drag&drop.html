@@ -128,7 +128,7 @@
   for (var i = 0; i < numberOfGroups; i++) {
     groups.add({
       id: i,
-      content: 'Truck&nbsp;' + i
+      content: 'Machine&nbsp;' + i
     })
   }
 
@@ -279,7 +279,7 @@
     var truck_score = tardiness + earliness;
 
     const truck_ct = document.createElement('p');
-    truck_ct.textContent = 'Truck'+truck+' Score : ' +truck_score +' - tardiness : '+tardiness+', earliness : '+earliness+
+    truck_ct.textContent = 'Machine '+truck+' Score : ' +truck_score +' - tardiness : '+tardiness+', earliness : '+earliness+
     ', due date (+'+ date_list[truck][0].due + '일) : ' + due_list[truck];
 
     ct.appendChild(truck_ct);
