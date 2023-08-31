@@ -8505,7 +8505,7 @@ function Range(body, options) {
     zoomable: true,
     min: null,
     max: null,
-    zoomMin: 10, // milliseconds
+    zoomMin: 1000 * 60 * 60 * 24, // milliseconds 일 단위로 수정
     zoomMax: 1000 * 60 * 60 * 24 * 365 * 10000, // milliseconds
     rollingMode: {
       follow: false,
