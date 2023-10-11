@@ -146,19 +146,19 @@
   var date_list = [
     [
       {
-        id: 0,
+        id: 3,
         ptime: 6,
         setup: 0,
         due: 10
       },
       {
-        id: 1,
+        id: 4,
         ptime: 4,
         setup: 0,
         due: 10
       },
       {
-        id: 2,
+        id: 7,
         ptime: 4,
         setup: 0,
         due: 10
@@ -166,13 +166,13 @@
     ],
     [
       {
-        id: 3,
+        id: 1,
         ptime: 8,
         setup: 0,
         due: 15
       },
       {
-        id: 4,
+        id: 2,
         ptime: 4,
         setup: 0,
         due: 15
@@ -192,7 +192,7 @@
         due: 20
       },
       {
-        id: 7,
+        id: 8,
         ptime: 6,
         setup: 0,
         due: 20
@@ -259,7 +259,7 @@
 
       var start_day = start.getDate() + Math.floor((start - new Date(2022, 12, 1)) / (1000 * 60 * 60 * 24)) -1;
       job_machine.textContent = truck;
-      job_id.textContent = order + 3 * truck;
+      job_id.textContent = date_list[truck][order].id;
       job_ptime.textContent = date_list[truck][order].ptime;
       job_start.textContent = start_day;
       job_end.textContent = start_day + date_list[truck][order].ptime;
